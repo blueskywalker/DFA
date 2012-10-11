@@ -29,6 +29,8 @@ public class Main {
         try {
             
             dfa.buildFrom(fileName);
+
+            dfa.travelDFA();
             
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
