@@ -13,16 +13,16 @@ import java.io.Serializable;
 public class Transition implements Serializable, Comparable<Character> {
     private static final long serialVersionUID = 4114888190954584419L;
     private char Char;
-    private State next;
+    private int next;
     
     public Transition() {
         Char = 0;
-        next = null;
+        next = -1;
     }
 
     public Transition(char ch) {
         Char = ch;
-        next = null;
+        next = -1;
     }
     
     public int compareTo(Character t) {
@@ -37,11 +37,11 @@ public class Transition implements Serializable, Comparable<Character> {
         this.Char = Char;
     }
 
-    public State getNext() {
+    public int getNext() {
         return next;
     }
 
-    public Transition setNext(State next) {
+    public Transition setNext(int next) {
         this.next = next;
         return this;
     }

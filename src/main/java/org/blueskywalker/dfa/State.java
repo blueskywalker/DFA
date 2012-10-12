@@ -16,7 +16,7 @@ public class State implements Serializable {
 
 
     
-    public static enum STATUS {BEGIN,RUN,END};
+    public static enum STATUS {BEGIN,END,RUN};
     
     private STATUS  status;
     private TreeMap<Character, Transition> arcs;
@@ -43,14 +43,6 @@ public class State implements Serializable {
         return arcs.containsKey(new Character(ch));
     }
     
-    public State NextOf(char ch) {
-        Transition tr = arcs.get(new Character(ch));
-        if(tr==null) {
-            return null;
-        }
-        return tr.getNext();
-    }
-
     void addTransition(Transition tr) {
         arcs.put(new Character(tr.getChar()), tr);
     }

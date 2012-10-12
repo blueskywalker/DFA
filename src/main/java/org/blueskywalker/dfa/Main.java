@@ -17,20 +17,21 @@ public class Main {
     public static final void main(String [] args) {
         
         String fileName = "en-common.wl";
-        File file = new File(fileName);
-        
-        if(file.exists()) {
-            System.out.println("There is dictionary.");
-        } else {
-            System.exit(-1);
-        }
-        
+                
         DFA dfa = new DFA();
         try {
             
             dfa.buildFrom(fileName);
 
+            
+            MinimizingDFA mini = new MinimizingDFA(dfa);
+            
+            mini.minimize();
+            
+            mini = null;
+            
             dfa.travelDFA();
+           // dfa.writeToFile("en-common.dfa");
             
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
