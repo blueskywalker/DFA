@@ -14,8 +14,7 @@ import java.util.TreeMap;
 public class State implements Serializable {
     private static final long serialVersionUID = -3647879125043388003L;
 
-
-    
+    private int total;
     public static enum STATUS {BEGIN,END,RUN};
     
     private STATUS  status;
@@ -43,6 +42,10 @@ public class State implements Serializable {
         return arcs.containsKey(new Character(ch));
     }
     
+    public Transition next(char ch) {
+        return arcs.get(new Character(ch));
+    }
+ 
     void addTransition(Transition tr) {
         arcs.put(new Character(tr.getChar()), tr);
     }
@@ -54,5 +57,18 @@ public class State implements Serializable {
     public void setStatus(STATUS status) {
         this.status = status;
     }
+ 
+    public String toString() {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(String.format("S[%s]T[%d]:",status.name(),arcs.size()));
+        for(Transition tr : arcs.values()) {
+            sb.append(tr.toString());
+        }
+        
+        return sb.toString();
+    }
+    
     
 }

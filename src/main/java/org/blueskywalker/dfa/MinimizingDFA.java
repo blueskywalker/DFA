@@ -90,7 +90,7 @@ public class MinimizingDFA {
             
             init(tr.getNext());
         }
-
+        dfaNext[index]=0;
         addToGroup(dfaGroup[index],index);
     }
     
@@ -116,7 +116,7 @@ public class MinimizingDFA {
             if(avalues[i].getChar() != bvalues[i].getChar()) {
                 return false;
             }
-            if(dfaNext[avalues[i].getNext()]!= dfaNext[bvalues[i].getNext()]) {
+            if(dfaGroup[avalues[i].getNext()]!= dfaGroup[bvalues[i].getNext()]) {
                 return false;
             }            
         }
@@ -127,11 +127,14 @@ public class MinimizingDFA {
         
         ArrayList<State> mDfa = new ArrayList<State>();
         
+       
         for(int i=0;i<group.size();i++) {
-            int head = group.get(i).head;
-            State newState = new State(dfa.stateAt(head).getStatus());
             
-            for(Transition tr : dfa.stateAt(head).getArcs().values()) {
+            int head = group.get(i).head;
+            
+            State newState = new State(dfa.stateAt(head).getStatus());
+  
+            for(Transition tr : dfa.stateAt(head).getArcs().values()) {               
                 int next = dfaGroup[tr.getNext()];
                 tr.setNext(next);
                 newState.addTransition(tr);
@@ -140,6 +143,30 @@ public class MinimizingDFA {
         }
         
         dfa.setStates(mDfa);
+    }
+    
+    private String verifyState(State now) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(String.format("[%s][%d]",now.getStatus().name(),now.getArcs().size()));
+        
+        for(Transition tr : now.getArcs().values()) {
+            sb.append(String.format("[%c:%d:%d]",tr.getChar(),tr.getNext(),dfaGroup[tr.getNext()]));
+        }
+        return sb.toString();
+    }
+    
+    public void verify() {
+        
+        for(int i=0;i<group.size();i++) {
+            int now = group.get(i).head;
+            for(int j=0;j<group.get(i).size;j++) {
+                System.out.print(i + ":");
+                //System.out.println(dfa.stateAt(now).toString());
+                System.out.println(verifyState(dfa.stateAt(now)));
+                now = dfaNext[now];
+            }
+        }    
     }
     
     public void minimize() {
@@ -172,13 +199,14 @@ public class MinimizingDFA {
                         addToGroup(nGroup, removeFromGroup(i, last));
                     }
                 } while (dfaNext[last]!=0);
-                logger.info("for loop "+i);
+                
                 if(nGroup < group.size()) {
                     nGroup++;
                 }
+                System.out.print('.');
             }
             
-            
+            System.out.println();
             logger.info(String.format("progressing  count %d",++count));
             
         } while(lastSize!=nGroup);

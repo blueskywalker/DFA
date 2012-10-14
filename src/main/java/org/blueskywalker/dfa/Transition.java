@@ -14,7 +14,7 @@ public class Transition implements Serializable, Comparable<Character> {
     private static final long serialVersionUID = 4114888190954584419L;
     private char Char;
     private int next;
-    
+
     public Transition() {
         Char = 0;
         next = -1;
@@ -46,4 +46,9 @@ public class Transition implements Serializable, Comparable<Character> {
         return this;
     }
     
+    public String toString() {
+        return String.format("[%c:%d]",Char,next);
+    }
+
+
 }

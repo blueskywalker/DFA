@@ -17,6 +17,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -24,9 +26,12 @@ import java.util.zip.InflaterInputStream;
  */
 public class DFA implements Serializable {
 
+    static final Logger logger = LogManager.getLogger(DFA.class);
+    
     private static final long serialVersionUID = -3610261803234263676L;
     private ArrayList<State> states;
 
+    
     public DFA() {
         states = new ArrayList<State>();
         states.add(new State(State.STATUS.BEGIN));
@@ -72,7 +77,8 @@ public class DFA implements Serializable {
     }
 
     private State add(State now, char ch) {
-
+        now.setTotal(now.getTotal()+1);
+        
         if (!now.hasChar(ch)) {
             states.add(new State());
             now.addTransition(
@@ -83,9 +89,13 @@ public class DFA implements Serializable {
     }
 
     public void travelDFA() {
+         travelDFA(System.out);
+    }
+    
+    public void travelDFA(PrintStream out) {
         StringBuilder sb = new StringBuilder();
 
-        travelDFA(states.get(0), sb, 0,System.out);
+        travelDFA(states.get(0), sb, 0,out);
     }
 
     private void travelDFA(State state, StringBuilder sb, int depth,PrintStream out) {
@@ -104,6 +114,25 @@ public class DFA implements Serializable {
             sb.setCharAt(depth, tr.getChar());
             travelDFA(nextOf(tr), sb, depth + 1,out);
         }
+    }
+    
+    public String find(String match) {
+        return find(states.get(0),match,0);
+    }
+    
+    private String find(State now,String match,int depth) {
+    
+  //      logger.debug(now.toString());
+        
+        if(match.length()== depth) {
+            return match;
+        }
+               
+        char ch = match.charAt(depth);
+        if(now.hasChar(ch)) {
+            return find(nextOf(now.next(ch)),match,depth+1);
+        }
+        return match.substring(0, depth);
     }
     
     public State nextOf(Transition tr) {
@@ -125,6 +154,7 @@ public class DFA implements Serializable {
     public void setStates(ArrayList<State> states) {
         this.states = states;
     }
-    
+
+
     
 }

@@ -12,26 +12,28 @@ import java.io.IOException;
  *
  * @author jerry
  */
-public class Main {
+public class Build {
 
-    public static final void main(String [] args) {
+    public static void main(String [] args) {
         
-        String fileName = "en-common.wl";
+        if(args.length < 1) {
+            System.out.println("org.blueskywalker.dfa.Main file");
+            System.exit(0);
+        }
+        
+        String fileName = args[0];
                 
         DFA dfa = new DFA();
         try {
             
             dfa.buildFrom(fileName);
-
             
             MinimizingDFA mini = new MinimizingDFA(dfa);
             
-            mini.minimize();
-            
-            mini = null;
-            
-            dfa.travelDFA();
-           // dfa.writeToFile("en-common.dfa");
+            mini.minimize();            
+            mini = null;           
+            //dfa.travelDFA();
+            dfa.writeToFile(String.format("%s.dfa", args[0]));
             
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();

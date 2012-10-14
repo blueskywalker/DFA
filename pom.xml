@@ -57,7 +57,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.blueskywalker.dfa.Main</mainClass>
+                            <mainClass>org.blueskywalker.dfa.Lookup</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
