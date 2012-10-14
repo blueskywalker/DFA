@@ -77,7 +77,6 @@ public class DFA implements Serializable {
     }
 
     private State add(State now, char ch) {
-        now.setTotal(now.getTotal()+1);
         
         if (!now.hasChar(ch)) {
             states.add(new State());
