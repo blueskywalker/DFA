@@ -81,7 +81,7 @@ public class DFA implements Serializable {
         if (!now.hasChar(ch)) {
             states.add(new State());
             now.addTransition(
-                    new Transition(ch).setNext(states.size() - 1));
+                    new Edge(ch).setNext(states.size() - 1));
         }
 
         return nextOf(now.getArcs().get(ch));
@@ -109,7 +109,7 @@ public class DFA implements Serializable {
             sb.append(" ");
         }
 
-        for (Transition tr : state.getArcs().values()) {
+        for (Edge tr : state.getArcs().values()) {
             sb.setCharAt(depth, tr.getChar());
             travelDFA(nextOf(tr), sb, depth + 1,out);
         }
@@ -134,7 +134,7 @@ public class DFA implements Serializable {
         return match.substring(0, depth);
     }
     
-    public State nextOf(Transition tr) {
+    public State nextOf(Edge tr) {
         return states.get(tr.getNext());
     }
 

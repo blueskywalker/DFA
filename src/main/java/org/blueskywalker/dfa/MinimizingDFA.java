@@ -51,7 +51,7 @@ public class MinimizingDFA {
         group = new ArrayList<GroupItem>();
     }
     
-    private State nextOf(Transition tr) {
+    private State nextOf(Edge tr) {
         return dfa.nextOf(tr);
     }
 
@@ -83,7 +83,7 @@ public class MinimizingDFA {
         
         State now = dfa.getStates().get(index);
         
-        for(Transition tr : now.getArcs().values()) {
+        for(Edge tr : now.getArcs().values()) {
             if(nextOf(tr) == now) {
                 continue;
             }
@@ -105,8 +105,8 @@ public class MinimizingDFA {
         }
         
         
-        Transition [] avalues = a.getArcs().values().toArray(new Transition[0]);
-        Transition [] bvalues = b.getArcs().values().toArray(new Transition[0]);
+        Edge [] avalues = a.getArcs().values().toArray(new Edge[0]);
+        Edge [] bvalues = b.getArcs().values().toArray(new Edge[0]);
         
         if (avalues.length != bvalues.length) {
             return false;
@@ -134,7 +134,7 @@ public class MinimizingDFA {
             
             State newState = new State(dfa.stateAt(head).getStatus());
   
-            for(Transition tr : dfa.stateAt(head).getArcs().values()) {               
+            for(Edge tr : dfa.stateAt(head).getArcs().values()) {               
                 int next = dfaGroup[tr.getNext()];
                 tr.setNext(next);
                 newState.addTransition(tr);
@@ -150,7 +150,7 @@ public class MinimizingDFA {
         
         sb.append(String.format("[%s][%d]",now.getStatus().name(),now.getArcs().size()));
         
-        for(Transition tr : now.getArcs().values()) {
+        for(Edge tr : now.getArcs().values()) {
             sb.append(String.format("[%c:%d:%d]",tr.getChar(),tr.getNext(),dfaGroup[tr.getNext()]));
         }
         return sb.toString();

@@ -18,10 +18,10 @@ public class State implements Serializable {
     public static enum STATUS {BEGIN,END,RUN};
     
     private STATUS  status;
-    private TreeMap<Character, Transition> arcs;
+    private TreeMap<Character, Edge> arcs;
     
     public State() {
-        arcs = new TreeMap<Character,Transition>();
+        arcs = new TreeMap<Character,Edge>();
         status = STATUS.RUN;
     }
     
@@ -30,11 +30,11 @@ public class State implements Serializable {
         this.status = status;
     }
 
-    public TreeMap<Character,Transition> getArcs() {
+    public TreeMap<Character,Edge> getArcs() {
         return arcs;
     }
 
-    public void setArcs(TreeMap<Character,Transition> arcs) {
+    public void setArcs(TreeMap<Character,Edge> arcs) {
         this.arcs = arcs;
     }
     
@@ -42,11 +42,11 @@ public class State implements Serializable {
         return arcs.containsKey(new Character(ch));
     }
     
-    public Transition next(char ch) {
+    public Edge next(char ch) {
         return arcs.get(new Character(ch));
     }
  
-    void addTransition(Transition tr) {
+    void addTransition(Edge tr) {
         arcs.put(new Character(tr.getChar()), tr);
     }
 
@@ -63,7 +63,7 @@ public class State implements Serializable {
         StringBuilder sb = new StringBuilder();
         
         sb.append(String.format("S[%s]T[%d]:",status.name(),arcs.size()));
-        for(Transition tr : arcs.values()) {
+        for(Edge tr : arcs.values()) {
             sb.append(tr.toString());
         }
         

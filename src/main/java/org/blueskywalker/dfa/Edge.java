@@ -10,17 +10,17 @@ import java.io.Serializable;
  *
  * @author jerry
  */
-public class Transition implements Serializable, Comparable<Character> {
+public class Edge implements Serializable, Comparable<Character> {
     private static final long serialVersionUID = 4114888190954584419L;
     private char Char;
     private int next;
 
-    public Transition() {
+    public Edge() {
         Char = 0;
         next = -1;
     }
 
-    public Transition(char ch) {
+    public Edge(char ch) {
         Char = ch;
         next = -1;
     }
@@ -41,7 +41,7 @@ public class Transition implements Serializable, Comparable<Character> {
         return next;
     }
 
-    public Transition setNext(int next) {
+    public Edge setNext(int next) {
         this.next = next;
         return this;
     }
